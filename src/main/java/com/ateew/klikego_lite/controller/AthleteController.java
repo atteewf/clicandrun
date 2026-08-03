@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ateew.klikego_lite.dto.AthleteDto;
 import com.ateew.klikego_lite.model.Athlete;
 import com.ateew.klikego_lite.service.AthleteService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class AthleteController {
@@ -23,14 +26,24 @@ public class AthleteController {
     public Iterable<Athlete> getAthlete() {
         return athleteService.getAthlete();
     }
-    @PostMapping("/athlete")
-    public Athlete createAthlete(@RequestBody Athlete athlete) {
-        return athleteService.saveAthlete(athlete);
+
+    @GetMapping("/athlete/{id}")
+    public Athlete getOneAthlete(@PathVariable Long id) {
+        return athleteService.getOneAthlete(id);
     }
+
+
+
+    @PostMapping("/athlete")
+    
+    public Athlete createAthlete(@Valid @RequestBody AthleteDto athleteDto) {
+        return athleteService.saveAthlete(athleteDto, null);
+    }
+
+
     @PutMapping("/athlete/{id}")
-    public Athlete updateAthlete(@PathVariable Long id, @RequestBody Athlete athlete) {
-        athlete.setId(id);
-        return athleteService.saveAthlete(athlete);
+    public Athlete updateAthlete(@PathVariable Long id,@Valid @RequestBody AthleteDto athleteDto) {
+        return athleteService.saveAthlete(athleteDto, id);
     }
 
     @DeleteMapping("/athlete/{id}")

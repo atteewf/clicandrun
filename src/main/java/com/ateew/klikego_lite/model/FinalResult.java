@@ -3,11 +3,9 @@ package com.ateew.klikego_lite.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.EmbeddedId;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 
@@ -19,7 +17,7 @@ public class FinalResult {
     private int place;
 
     @EmbeddedId
-    private FinalResultId finalresultid;
+   private FinalResultId finalResultId;
      
 @ManyToOne
 @JoinColumn(name = "event_id", insertable = false, updatable = false)
@@ -29,16 +27,16 @@ private Event event;
 @JoinColumn(name = "athlete_id", insertable = false, updatable = false)
 private Athlete athlete;
 
-    private boolean is_dsq;
-    private boolean is_dns;
-    private boolean is_dnf;
+    private boolean isDsq;
+    private boolean isDns;
+    private boolean isDnf;
 
     public FinalResultId getFinalResultId(){
-        return finalresultid;
+        return finalResultId;
     }
 
     public void setFinalResultId(FinalResultId finalResultId){
-        this.finalresultid = finalResultId;
+        this.finalResultId = finalResultId;
     }
 
 
@@ -57,40 +55,40 @@ private Athlete athlete;
     }
 
     
-    public Event getEventId(){
+    public Event getEvent(){
         return event;
     }
    
-    public void setEventId( Event event){
+    public void setEvent( Event event){
     this.event = event;
     }
 
 
- public Athlete getAthleteId(){
+ public Athlete getAthlete(){
         return athlete;
     }
    
-    public void setAthleteId( Athlete athlete){
+    public void setAthlete( Athlete athlete){
     this.athlete = athlete;
     }
     
-    public boolean getIsDsq(){
-        return is_dsq;
+    public boolean isDsq(){
+        return isDsq;
     }
-    public boolean getIsDns(){
-        return is_dns;
+    public boolean isDns(){
+        return isDns;
     }
-    public boolean getIsDnf(){
-        return is_dnf;
+    public boolean isDnf(){
+        return isDnf;
     }
-    public void setIsDsq(boolean is_dsq){
-        this.is_dsq = is_dsq;
+    public void setIsDsq(boolean isDsq){
+        this.isDsq = isDsq;
     }
-    public void setIsDns(boolean is_dns){
-        this.is_dns = is_dns;
+    public void setIsDns(boolean isDns){
+        this.isDns = isDns;
     }
-public void setIsDnf(boolean is_dnf){
-        this.is_dnf = is_dnf;
+public void setIsDnf(boolean isDnf){
+        this.isDnf = isDnf;
     }
 
 

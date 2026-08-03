@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import java.time.LocalDate;
 
 
 @Entity
@@ -18,7 +17,7 @@ public class Discipline {
     private long id ;
     
     private String name;
-    private boolean is_men;
+    private boolean isMen;
     private int distance;
 
      public long getId(){
@@ -36,11 +35,11 @@ public class Discipline {
     }
 
 
-     public boolean getIsMen(){
-        return is_men;
+     public boolean isMen(){
+        return isMen;
     }
-    public void setIsMen(boolean is_men){
-        this.is_men = is_men;
+    public void setIsMen(boolean isMen){
+        this.isMen = isMen;
     }
 public int getDistance(){
     return distance;

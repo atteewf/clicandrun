@@ -22,7 +22,14 @@ public class EventController {
     public Iterable<Event> getEvent() {
         return eventService.getEvent();
     }
-       @PostMapping("/event")
+
+    @GetMapping("/event/{id}")
+    public Event getOneEvent(@PathVariable Long id) {
+        return eventService.getOneEvent(id);
+    }
+
+
+    @PostMapping("/event")
     public Event createEvent(@RequestBody Event event) {
         return eventService.saveEvent(event);
     }
@@ -36,4 +43,6 @@ public class EventController {
     public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
+
+
 }

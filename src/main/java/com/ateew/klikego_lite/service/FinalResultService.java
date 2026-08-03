@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ateew.klikego_lite.repository.FinalResultRepository;
+import com.ateew.klikego_lite.exception.FinalResultNotFoundException;
 import com.ateew.klikego_lite.model.FinalResult;
 import com.ateew.klikego_lite.model.FinalResultId;
 
@@ -14,8 +15,8 @@ public class FinalResultService {
     @Autowired
     private FinalResultRepository finalResultRepository;
 
-    public Optional<FinalResult> getOneFinalResult(final FinalResultId id) {
-        return finalResultRepository.findById(id);
+   public FinalResult getOneFinalResult(FinalResultId id) {
+        return finalResultRepository.findById(id).orElseThrow(() -> new FinalResultNotFoundException(id));
     }
 
     public Iterable<FinalResult> getFinalResult() {

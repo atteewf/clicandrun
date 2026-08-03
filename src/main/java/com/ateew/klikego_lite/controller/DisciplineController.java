@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 import com.ateew.klikego_lite.model.Discipline;
 import com.ateew.klikego_lite.service.DisciplineService;
 
@@ -22,6 +21,11 @@ public class DisciplineController {
     @GetMapping("/discipline")
     public Iterable<Discipline> getDiscipline() {
         return disciplineService.getDiscipline();
+    }
+
+       @GetMapping("/discipline/{id}")
+    public Discipline getOneDiscipline(@PathVariable Long id) {
+        return disciplineService.getOneDiscipline(id);
     }
          @PostMapping("/discipline")
     public Discipline createDiscipline(@RequestBody Discipline discipline) {

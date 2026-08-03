@@ -23,6 +23,11 @@ public class NationalityController {
     public Iterable<Nationality> getNationality() {
         return nationalityService.getNationality();
     }
+     @GetMapping("/nationality/{id}")
+    public Nationality getOneNationality(@PathVariable Long id) {
+        return nationalityService.getOneNationality(id);
+    }
+    
     @PostMapping("/nationality")
     public Nationality createNationality(@RequestBody Nationality nationality){
         return nationalityService.saveNationality(nationality);

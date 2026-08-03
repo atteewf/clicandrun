@@ -19,9 +19,9 @@ public class Competition {
     
     private String name;
 
-    private LocalDate start_date;
+    private LocalDate startDate;
     
-    private LocalDate end_date;
+    private LocalDate endDate;
     private int year;
     private String location;
 
@@ -41,17 +41,17 @@ public class Competition {
     }
     
     public LocalDate getStartDate(){
-        return start_date;
+        return startDate;
     }
-    public void setStartDate(LocalDate start_date){
-        this.start_date = start_date;
+    public void setStartDate(LocalDate startDate){
+        this.startDate = startDate;
     }
 
     public LocalDate getEndDate(){
-        return end_date;
+        return endDate;
     }
-    public void setEndDate(LocalDate end_date){
-        this.end_date = end_date;
+    public void setEndDate(LocalDate endDate){
+        this.endDate = endDate;
     }
 
     public int getYear(){return year;}

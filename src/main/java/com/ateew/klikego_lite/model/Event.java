@@ -19,7 +19,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
     private double wind;
-    private LocalDate final_date;
+    private LocalDate finalDate;
     
 
     @ManyToOne
@@ -47,25 +47,25 @@ public class Event {
     }
  
     public LocalDate getFinalDate(){
-        return final_date;
+        return finalDate;
     }
-    public void setFinalDate(LocalDate final_date){
-        this.final_date = final_date;
+    public void setFinalDate(LocalDate finalDate){
+        this.finalDate = finalDate;
     }
 
     
-    public Competition getCompetitionId(){
+    public Competition getCompetition(){
         return competition;
     }
    
-    public void setCompetitionId( Competition competition){
+    public void setCompetition( Competition competition){
     this.competition = competition;
     }
- public Discipline getDisciplineId(){
+ public Discipline getDiscipline(){
         return discipline;
     }
    
-    public void setDisciplineId( Discipline discipline){
+    public void setDiscipline( Discipline discipline){
     this.discipline = discipline;
     }
 

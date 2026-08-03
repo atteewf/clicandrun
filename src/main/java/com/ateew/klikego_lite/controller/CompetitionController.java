@@ -22,6 +22,10 @@ public class CompetitionController {
     public Iterable<Competition> getCompetition() {
         return competitionService.getCompetition();
     }
+      @GetMapping("/competition/{id}")
+    public Competition getOneCompetition(@PathVariable Long id) {
+        return competitionService.getOneCompetition(id);
+    }
        @PostMapping("/competition")
     public Competition createCompetition(@RequestBody Competition competition) {
         return competitionService.saveCompetition(competition);

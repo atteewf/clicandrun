@@ -13,6 +13,7 @@ import com.ateew.klikego_lite.model.FinalResult;
 import com.ateew.klikego_lite.service.FinalResultService;
 import com.ateew.klikego_lite.model.FinalResultId;
 
+
 @RestController
 public class FinalResultController {
 
@@ -23,6 +24,11 @@ public class FinalResultController {
     public Iterable<FinalResult> getFinalResult() {
         return finalResultService.getFinalResult();
     }
+   @GetMapping("/finalresult/{eventId}/{athleteId}")
+public FinalResult getOneFinalResult(@PathVariable Long eventId, @PathVariable Long athleteId) {
+    FinalResultId id = new FinalResultId(eventId, athleteId);
+    return finalResultService.getOneFinalResult(id);
+}
     
     @PostMapping("/finalresult")
     public FinalResult createFinalResult(@RequestBody FinalResult finalresult) {

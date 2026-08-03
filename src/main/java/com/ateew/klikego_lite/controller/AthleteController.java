@@ -32,8 +32,6 @@ public class AthleteController {
         return athleteService.getOneAthlete(id);
     }
 
-
-
     @PostMapping("/athlete")
     
     public Athlete createAthlete(@Valid @RequestBody AthleteDto athleteDto) {

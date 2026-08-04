@@ -39,7 +39,6 @@ public class SpringSecurityConfig {
             .build();
     }
 
-    // Sert à SIGNER un nouveau token (utilisé par JWTService)
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(jwtKey.getBytes()));

@@ -34,6 +34,7 @@ public class SpringSecurityConfig {
             .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.GET, "/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")

@@ -17,7 +17,6 @@ import com.ateew.clicandrun.dto.DisciplineDto;
 import com.ateew.clicandrun.exception.DisciplineNotFoundException;
 import com.ateew.clicandrun.model.Discipline;
 import com.ateew.clicandrun.repository.DisciplineRepository;
-import com.ateew.clicandrun.service.DisciplineService;
 
 @ExtendWith(MockitoExtension.class)
 public class DisciplineServiceTest {

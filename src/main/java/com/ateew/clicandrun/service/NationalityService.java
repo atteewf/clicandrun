@@ -1,10 +1,9 @@
 package com.ateew.clicandrun.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ateew.clicandrun.dto.NationalityDto;
 import com.ateew.clicandrun.exception.NationalityNotFoundException;
 import com.ateew.clicandrun.model.Nationality;
 import com.ateew.clicandrun.repository.NationalityRepository;
@@ -27,7 +26,11 @@ public class NationalityService {
         nationalityRepository.deleteById(id);
     }
 
-    public Nationality saveNationality(Nationality nationality) {
+    public Nationality saveNationality(NationalityDto nationalityDto, Long id) {
+        Nationality nationality = new Nationality();
+        if(id !=null){nationality.setId(id);}
+        nationality.setCountryName(nationalityDto.getCountryName());
+        nationality.setCountryAbbr(nationalityDto.getCountryAbbr());
         return nationalityRepository.save(nationality);
     }
 }

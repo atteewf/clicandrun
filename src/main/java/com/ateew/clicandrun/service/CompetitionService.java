@@ -4,6 +4,7 @@ package com.ateew.clicandrun.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ateew.clicandrun.dto.CompetitionDto;
 import com.ateew.clicandrun.exception.CompetitionNotFoundException;
 import com.ateew.clicandrun.model.Competition;
 import com.ateew.clicandrun.repository.CompetitionRepository;
@@ -26,7 +27,16 @@ public class CompetitionService {
         competitionRepository.deleteById(id);
     }
 
-    public Competition saveCompetition(Competition competition) {
+    public Competition saveCompetition(CompetitionDto competitionDto,Long id) {
+         Competition competition = new Competition();
+          if (id != null) {
+            competition.setId(id);
+        }
+        competition.setName(competitionDto.getName());
+        competition.setStartDate(competitionDto.getStartDate());
+        competition.setEndDate(competitionDto.getEndDate());
+        competition.setLocation(competitionDto.getLocation());
+        competition.setYear(competitionDto.getEndDate().getYear());
         return competitionRepository.save(competition);
     }
 }

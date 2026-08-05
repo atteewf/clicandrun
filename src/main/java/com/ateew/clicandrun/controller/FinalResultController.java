@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ateew.clicandrun.dto.FinalResultDto;
 import com.ateew.clicandrun.model.FinalResult;
 import com.ateew.clicandrun.model.FinalResultId;
 import com.ateew.clicandrun.service.FinalResultService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,16 +34,14 @@ public FinalResult getOneFinalResult(@PathVariable Long eventId, @PathVariable L
     return finalResultService.getOneFinalResult(id);
 }
     
-    @PostMapping("/finalresult")
-    public FinalResult createFinalResult(@RequestBody FinalResult finalresult) {
-        return finalResultService.saveFinalResult(finalresult);
+     @PostMapping("/finalresult")
+    public FinalResult createFinalResult(@Valid @RequestBody FinalResultDto finalResultDto) {
+        return finalResultService.saveFinalResult(finalResultDto);
     }
-    
+
     @PutMapping("/finalresult/{eventId}/{athleteId}")
-    public FinalResult updateFinalResult(@PathVariable Long eventId, @PathVariable Long athleteId, @RequestBody FinalResult finalresult) {
-        FinalResultId id = new FinalResultId(eventId, athleteId);
-        finalresult.setFinalResultId(id);
-        return finalResultService.saveFinalResult(finalresult);
+    public FinalResult updateFinalResult(@PathVariable Long eventId, @PathVariable Long athleteId, @Valid @RequestBody FinalResultDto finalResultDto) {
+        return finalResultService.saveFinalResult(finalResultDto);
     }
     
     @DeleteMapping("/finalresult/{eventId}/{athleteId}")

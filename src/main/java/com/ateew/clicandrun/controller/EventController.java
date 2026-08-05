@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ateew.clicandrun.model.Event;
 import com.ateew.clicandrun.service.EventService;
+import com.ateew.clicandrun.dto.EventDto;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +34,12 @@ public class EventController {
 
 
     @PostMapping("/event")
-    public Event createEvent(@RequestBody Event event) {
-        return eventService.saveEvent(event);
+    public Event createEvent(@Valid @RequestBody EventDto eventDto) {
+        return eventService.saveEvent(eventDto,null);
     }
     @PutMapping("/event/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        event.setId(id);
-        return eventService.saveEvent(event);
+    public Event updateEvent(@PathVariable Long id, @Valid @RequestBody EventDto eventDto) {
+        return eventService.saveEvent(eventDto,id);
     }
 
     @DeleteMapping("/event/{id}")

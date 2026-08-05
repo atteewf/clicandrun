@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ateew.clicandrun.dto.CompetitionDto;
 import com.ateew.clicandrun.model.Competition;
 import com.ateew.clicandrun.service.CompetitionService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,13 +31,13 @@ public class CompetitionController {
         return competitionService.getOneCompetition(id);
     }
        @PostMapping("/competition")
-    public Competition createCompetition(@RequestBody Competition competition) {
-        return competitionService.saveCompetition(competition);
+    public Competition createCompetition(@Valid @RequestBody CompetitionDto competitionDto) {
+        return competitionService.saveCompetition(competitionDto,null);
     }
+
     @PutMapping("/competition/{id}")
-    public Competition updateCompetition(@PathVariable Long id, @RequestBody Competition competition) {
-        competition.setId(id);
-        return competitionService.saveCompetition(competition);
+    public Competition updateCompetition(@PathVariable Long id,@Valid @RequestBody CompetitionDto competitionDto) {
+        return competitionService.saveCompetition(competitionDto,id);
     }
 
     @DeleteMapping("/competition/{id}")

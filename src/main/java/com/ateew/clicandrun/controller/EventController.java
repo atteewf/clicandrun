@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 public class EventController {
@@ -22,10 +24,10 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("/event")
-    public Iterable<Event> getEvent() {
-        return eventService.getEvent();
-    }
+   @GetMapping("/event")
+public Page<Event> getEvent(Pageable pageable) {
+    return eventService.getEvent(pageable);
+}
 
     @GetMapping("/event/{id}")
     public Event getOneEvent(@PathVariable Long id) {

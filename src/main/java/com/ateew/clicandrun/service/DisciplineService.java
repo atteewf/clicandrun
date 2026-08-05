@@ -1,6 +1,8 @@
 package com.ateew.clicandrun.service;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,15 @@ public class DisciplineService {
         return disciplineRepository.findById(id).orElseThrow(()-> new DisciplineNotFoundException(id));
     }
 
-    public Iterable<Discipline> getDiscipline() {
-        return disciplineRepository.findAll();
+    public Page<Discipline> getDiscipline(Integer distance, Pageable pageable) {
+         if (distance != null) {
+      
+    
+        return disciplineRepository.findByDistance(distance, pageable);
     }
+   return disciplineRepository.findAll(pageable);
+   
+}
 
     public void deleteDiscipline(final Long id) {
         disciplineRepository.deleteById(id);

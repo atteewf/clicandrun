@@ -12,7 +12,10 @@ import com.ateew.clicandrun.service.DisciplineService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 
@@ -23,8 +26,8 @@ public class DisciplineController {
     private DisciplineService disciplineService;
 
     @GetMapping("/discipline")
-    public Iterable<Discipline> getDiscipline() {
-        return disciplineService.getDiscipline();
+    public Page<Discipline> getDiscipline( @RequestParam(required = false) Integer distance, Pageable pageable) {
+        return disciplineService.getDiscipline(distance, pageable);
     }
 
        @GetMapping("/discipline/{id}")

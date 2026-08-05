@@ -18,6 +18,11 @@ import com.ateew.clicandrun.model.FinalResultId;
 import com.ateew.clicandrun.repository.AthleteRepository;
 import com.ateew.clicandrun.repository.EventRepository;
 import com.ateew.clicandrun.repository.FinalResultRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class FinalResultServiceTest {
@@ -59,4 +64,16 @@ public class FinalResultServiceTest {
             finalResultService.getOneFinalResult(id);
         });
     }
+    @Test
+void devrait_retourner_une_page_de_resultats() {
+    Pageable pageable = PageRequest.of(0, 2);
+    FinalResult f1 = new FinalResult();
+    Page<FinalResult> pageAttendue = new PageImpl<>(List.of(f1), pageable, 1);
+
+    when(finalResultRepository.findAll(pageable)).thenReturn(pageAttendue);
+
+    Page<FinalResult> resultat = finalResultService.getFinalResult(pageable);
+
+    assertEquals(1, resultat.getTotalElements());
+}
 }

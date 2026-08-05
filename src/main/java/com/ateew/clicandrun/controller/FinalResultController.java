@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 public class FinalResultController {
@@ -25,8 +26,8 @@ public class FinalResultController {
     private FinalResultService finalResultService;
 
     @GetMapping("/finalresult")
-    public Iterable<FinalResult> getFinalResult() {
-        return finalResultService.getFinalResult();
+    public Page<FinalResult> getFinalResult(Pageable pageable) {
+        return finalResultService.getFinalResult(pageable);
     }
    @GetMapping("/finalresult/{eventId}/{athleteId}")
 public FinalResult getOneFinalResult(@PathVariable Long eventId, @PathVariable Long athleteId) {

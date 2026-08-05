@@ -31,14 +31,14 @@ public class SpringSecurityConfig {
         return http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.GET, "/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/register").permitAll()
-            .requestMatchers(HttpMethod.POST, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
-            .anyRequest().authenticated())
+         .authorizeHttpRequests(auth -> auth
+    .requestMatchers(HttpMethod.GET, "/competition/**", "/event/**", "/finalresult/**", "/discipline/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+    .requestMatchers(HttpMethod.POST, "/login").permitAll()
+    .requestMatchers(HttpMethod.POST, "/register").permitAll()
+    .requestMatchers(HttpMethod.POST, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
+    .requestMatchers(HttpMethod.PUT, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
+    .requestMatchers(HttpMethod.DELETE, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")
+    .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
             .build();

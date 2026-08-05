@@ -18,6 +18,11 @@ import com.ateew.clicandrun.model.Event;
 import com.ateew.clicandrun.repository.CompetitionRepository;
 import com.ateew.clicandrun.repository.DisciplineRepository;
 import com.ateew.clicandrun.repository.EventRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class EventServiceTest {
@@ -60,4 +65,18 @@ public class EventServiceTest {
             eventService.getOneEvent(id);
         });
     }
+    @Test
+void devrait_retourner_une_page_d_events() {
+    Pageable pageable = PageRequest.of(0, 2);
+    Event event1 = new Event();
+    Event event2 = new Event();
+    Page<Event> pageAttendue = new PageImpl<>(List.of(event1, event2), pageable, 2);
+
+    when(eventRepository.findAll(pageable)).thenReturn(pageAttendue);
+
+    Page<Event> resultat = eventService.getEvent(pageable);
+
+    assertEquals(2, resultat.getTotalElements());
+    assertEquals(2, resultat.getContent().size());
+}
 }

@@ -15,6 +15,8 @@ import com.ateew.clicandrun.exception.AthleteNotFoundException;
 import com.ateew.clicandrun.repository.AthleteRepository;
 import com.ateew.clicandrun.repository.EventRepository;
 import com.ateew.clicandrun.repository.FinalResultRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class FinalResultService {
@@ -33,8 +35,8 @@ public class FinalResultService {
         return finalResultRepository.findById(id).orElseThrow(() -> new FinalResultNotFoundException(id));
     }
 
-    public Iterable<FinalResult> getFinalResult() {
-        return finalResultRepository.findAll();
+    public Page<FinalResult> getFinalResult(Pageable pageable) {
+        return finalResultRepository.findAll(pageable);
     }
 
     public void deleteFinalResult(final FinalResultId id) {

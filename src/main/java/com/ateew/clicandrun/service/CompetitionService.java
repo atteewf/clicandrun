@@ -1,6 +1,7 @@
 package com.ateew.clicandrun.service;
 
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,11 @@ public class CompetitionService {
         return competitionRepository.findById(id).orElseThrow(()-> new CompetitionNotFoundException(id));
     }
 
-    public Iterable<Competition> getCompetition() {
-        return competitionRepository.findAll();
+    public Page<Competition> getCompetition(Integer year,Pageable pageable) {
+        if (year != null) {
+        return competitionRepository.findByYear(year, pageable);
+    }
+        return competitionRepository.findAll(pageable);
     }
 
     public void deleteCompetition(final Long id) {

@@ -1,5 +1,6 @@
 package com.ateew.clicandrun.controller;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -22,10 +24,12 @@ public class CompetitionController {
     @Autowired
     private CompetitionService competitionService;
 
-    @GetMapping("/competition")
-    public Iterable<Competition> getCompetition() {
-        return competitionService.getCompetition();
-    }
+  @GetMapping("/competition")
+public Page<Competition> getCompetition(
+        @RequestParam(required = false) Integer year,
+        Pageable pageable) {
+    return competitionService.getCompetition(year, pageable);
+}
       @GetMapping("/competition/{id}")
     public Competition getOneCompetition(@PathVariable Long id) {
         return competitionService.getOneCompetition(id);

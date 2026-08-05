@@ -12,12 +12,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.ateew.clicandrun.dto.DisciplineDto;
 import com.ateew.clicandrun.exception.DisciplineNotFoundException;
 import com.ateew.clicandrun.model.Discipline;
 import com.ateew.clicandrun.repository.DisciplineRepository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 @ExtendWith(MockitoExtension.class)
 public class DisciplineServiceTest {
 
@@ -52,4 +58,29 @@ public class DisciplineServiceTest {
             disciplineService.getOneDiscipline(id);
         });
     }
+    @Test
+void devrait_retourner_une_page_de_disciplines_sans_filtre() {
+    Pageable pageable = PageRequest.of(0, 2);
+    Discipline d1 = new Discipline();
+    Page<Discipline> pageAttendue = new PageImpl<>(List.of(d1), pageable, 1);
+
+    when(disciplineRepository.findAll(pageable)).thenReturn(pageAttendue);
+
+    Page<Discipline> resultat = disciplineService.getDiscipline(null, pageable);
+
+    assertEquals(1, resultat.getTotalElements());
+}
+
+@Test
+void devrait_retourner_une_page_de_disciplines_filtrees_par_distance() {
+    Pageable pageable = PageRequest.of(0, 2);
+    Discipline d1 = new Discipline();
+    Page<Discipline> pageAttendue = new PageImpl<>(List.of(d1), pageable, 1);
+
+    when(disciplineRepository.findByDistance(100, pageable)).thenReturn(pageAttendue);
+
+    Page<Discipline> resultat = disciplineService.getDiscipline(100, pageable);
+
+    assertEquals(1, resultat.getTotalElements());
+}
 }

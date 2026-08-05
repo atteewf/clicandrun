@@ -14,6 +14,8 @@ import com.ateew.clicandrun.repository.EventRepository;
 import com.ateew.clicandrun.repository.CompetitionRepository;
 import com.ateew.clicandrun.repository.DisciplineRepository;
 import com.ateew.clicandrun.exception.DisciplineNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class EventService {
@@ -31,9 +33,9 @@ public class EventService {
         return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
     }
 
-    public Iterable<Event> getEvent() {
-        return eventRepository.findAll();
-    }
+   public Page<Event> getEvent(Pageable pageable) {
+    return eventRepository.findAll(pageable);
+}
 
     public void deleteEvent(final Long id) {
         eventRepository.deleteById(id);

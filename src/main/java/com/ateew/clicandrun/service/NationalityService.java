@@ -1,5 +1,6 @@
 package com.ateew.clicandrun.service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class NationalityService {
         return nationalityRepository.findById(id).orElseThrow(()->new NationalityNotFoundException(id));
     }
 
-    public Iterable<Nationality> getNationality() {
-        return nationalityRepository.findAll();
+    public Page<Nationality> getNationality(Pageable pageable) {
+        return nationalityRepository.findAll(pageable);
     }
 
     public void deleteNationality(final Long id) {

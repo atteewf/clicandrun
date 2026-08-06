@@ -24,6 +24,15 @@ public class RegisterDto {
 private String email;
     @NotBlank
     private String password;
+    @NotNull(message = "La nationalité est obligatoire")
+private Long nationalityId;
+
+public Long getNationalityId(){
+    return nationalityId;
+}
+public void setNationalityId(Long nationalityId){
+    this.nationalityId = nationalityId;
+}
 
     public String getFirstName(){
         return firstName;

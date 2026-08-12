@@ -8,6 +8,8 @@ import com.ateew.clicandrun.dto.AthleteDto;
 import com.ateew.clicandrun.exception.AthleteNotFoundException;
 import com.ateew.clicandrun.model.Athlete;
 import com.ateew.clicandrun.repository.AthleteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -20,9 +22,9 @@ public class AthleteService {
         return athleteRepository.findById(id).orElseThrow(()-> new AthleteNotFoundException(id));
     }
 
-    public Iterable<Athlete> getAthlete() {
-        return athleteRepository.findAll();
-    }
+   public Page<Athlete> getAthlete(Pageable pageable) {
+    return athleteRepository.findAll(pageable);
+}
 
     public void deleteAthlete(final Long id) {
         athleteRepository.deleteById(id);

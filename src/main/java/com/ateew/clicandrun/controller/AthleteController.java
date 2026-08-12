@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.validation.Valid;
 
@@ -23,10 +25,11 @@ public class AthleteController {
     @Autowired
     private AthleteService athleteService;
 
-    @GetMapping("/athlete")
-    public Iterable<Athlete> getAthlete() {
-        return athleteService.getAthlete();
-    }
+   @GetMapping("/athlete")
+public Page<Athlete> getAthlete(Pageable pageable) {
+    return athleteService.getAthlete(pageable);
+}
+
 
     @GetMapping("/athlete/{id}")
     public Athlete getOneAthlete(@PathVariable Long id) {

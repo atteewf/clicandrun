@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          .authorizeHttpRequests(auth -> auth
-    .requestMatchers(HttpMethod.GET, "/competition/**", "/event/**", "/finalresult/**", "/discipline/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+    .requestMatchers(HttpMethod.GET, "/competition/**", "/event/**", "/athlete/**", "/nationality/**", "/finalresult/**", "/discipline/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
     .requestMatchers(HttpMethod.POST, "/login").permitAll()
     .requestMatchers(HttpMethod.POST, "/register").permitAll()
     .requestMatchers(HttpMethod.POST, "/competition/**", "/discipline/**", "/nationality/**", "/event/**").hasRole("ADMIN")

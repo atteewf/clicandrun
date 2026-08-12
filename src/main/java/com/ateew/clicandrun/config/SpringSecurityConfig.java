@@ -30,6 +30,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          .authorizeHttpRequests(auth -> auth
     .requestMatchers(HttpMethod.GET, "/competition/**", "/event/**", "/athlete/**", "/nationality/**", "/finalresult/**", "/discipline/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()

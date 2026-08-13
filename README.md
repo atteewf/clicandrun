@@ -1,96 +1,116 @@
 # ClicAndRun
 
-API REST développée avec Spring Boot, pour la gestion d'une plateforme de courses à pied (compétitions, épreuves, athlètes, résultats). Projet d'apprentissage progressif, incluant authentification sécurisée et gestion des rôles.
+Plateforme de gestion et de suivi de competitions d'athletisme, construite de A a Z : modelisation de la base de donnees, API REST securisee en Java/Spring Boot, et interface React connectee en temps reel.
+
+**Demo en ligne :** _a completer apres deploiement_
+**Backend :** https://github.com/atteewf/clicandrun
+**Frontend :** https://github.com/atteewf/clicandrun-front
+
+---
+
+## Le projet
+
+ClicAndRun permet de consulter librement les competitions, epreuves, athletes et resultats d'athletisme, et propose un espace connecte (roles USER / ADMIN) pour la gestion complete des donnees : creation, modification et suppression de chaque ressource.
+
+## Architecture generale
+
+```
+┌─────────────────────┐         REST / JSON          ┌──────────────────────┐
+│   Frontend (React)   │  ─────────────────────────▶  │  Backend (Spring)     │
+│   clicandrun-front    │  ◀─────────────────────────  │  clicandrun           │
+└─────────────────────┘         JWT (Authorization)    └──────────────────────┘
+                                                                  │
+                                                                  ▼
+                                                        ┌──────────────────────┐
+                                                        │  PostgreSQL (Supabase)│
+                                                        └──────────────────────┘
+```
+
+## Modele de donnees
+
+7 entites : `Competition`, `Discipline`, `Event`, `Athlete`, `Nationality`, `FinalResult` (cle primaire composite event + athlete), `User` (lie optionnellement a un `Athlete`).
 
 ## Stack technique
 
-- **Java 25**
-- **Spring Boot 4.1.0**
-- **Spring Data JPA / Hibernate** — persistance et génération automatique des requêtes SQL
-- **Spring Security / JWT** — authentification et sécurisation des routes
-- **Bean Validation** — validation des données entrantes
-- **PostgreSQL** (hébergé sur Supabase)
-- **JUnit / Mockito** — tests unitaires
-- **Maven**
+### Backend
 
-## Architecture
+- Java 25, Spring Boot, Spring Data JPA
+- Spring Security / JWT (roles USER / ADMIN)
+- Bean Validation, DTO dedies
+- PostgreSQL (Supabase)
+- JUnit / Mockito
+- Docker
+- Swagger / OpenAPI
 
-Projet structuré en couches, pattern standard Spring Boot :
+### Frontend
 
-```
-src/main/java/com/ateew/clicandrun/
-├── model/       → entités JPA (représentation des tables)
-├── dto/         → objets d'échange avec validation (entrée API)
-├── repository/  → interfaces JpaRepository (accès aux données)
-├── service/     → logique métier, pont entre repository et controller
-├── controller/  → endpoints REST (@RestController)
-├── config/      → configuration Spring Security, JWT
-└── exception/   → exceptions custom et gestion centralisée des erreurs
-```
+- React 19, TypeScript, Vite
+- React Router (routes dynamiques)
+- Context API (authentification JWT partagee)
+- Tailwind CSS
 
-## Modèle de données
+## Fonctionnalites
 
-7 entités liées entre elles :
+- Consultation publique paginee : competitions, epreuves, athletes, resultats
+- Fiches detail (competition, athlete) avec palmares filtre
+- Authentification JWT : connexion, inscription (creation automatique d'un profil athlete)
+- Persistance de session (localStorage)
+- **Espace administration** : CRUD complet sur les 6 entites principales, protege par role ADMIN
+- Recherche instantanee sur les listes
 
-| Entité        | Description                              | Relations                                                                           |
-| ------------- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
-| `Competition` | Une compétition (ex: JO Rio 2016)        | —                                                                                   |
-| `Discipline`  | Une discipline (ex: 100m hommes)         | —                                                                                   |
-| `Nationality` | Une nationalité                          | —                                                                                   |
-| `Athlete`     | Un athlète                               | `@ManyToOne` → Nationality                                                          |
-| `Event`       | Une épreuve, rattachée à une compétition | `@ManyToOne` → Competition, Discipline                                              |
-| `FinalResult` | Le résultat d'un athlète sur une épreuve | `@ManyToOne` → Event, Athlete · clé primaire composite (`@EmbeddedId`)              |
-| `User`        | Un compte utilisateur (authentification) | `@OneToOne` → Athlete (optionnel, nul pour les comptes admin) · rôle `USER`/`ADMIN` |
+## Lancer le projet en local
 
-## Sécurité
+Le backend et le frontend sont deux depots separes, a lancer en parallele.
 
-- Authentification par **JWT** (génération et validation via `JwtEncoder`/`JwtDecoder`)
-- Mots de passe **hashés en BCrypt**, jamais stockés en clair
-- Routes `GET` publiques (lecture libre)
-- Routes `POST` / `PUT` / `DELETE` protégées, nécessitent un token JWT valide
-- `POST /login` : échange identifiants (email + mot de passe) contre un token JWT
-
-## Endpoints disponibles
-
-| Méthode         | URL                                                  | Description                           | Accès       |
-| --------------- | ---------------------------------------------------- | ------------------------------------- | ----------- |
-| POST            | `/login`                                             | Authentification, retourne un JWT     | Public      |
-| GET             | `/competition`, `/competition/{id}`                  | Consultation des compétitions         | Public      |
-| POST/PUT/DELETE | `/competition`, `/competition/{id}`                  | Création / modification / suppression | Authentifié |
-| GET             | `/discipline`, `/discipline/{id}`                    | Consultation des disciplines          | Public      |
-| POST/PUT/DELETE | `/discipline`, `/discipline/{id}`                    | Création / modification / suppression | Authentifié |
-| GET             | `/nationality`, `/nationality/{id}`                  | Consultation des nationalités         | Public      |
-| POST/PUT/DELETE | `/nationality`, `/nationality/{id}`                  | Création / modification / suppression | Authentifié |
-| GET             | `/athlete`, `/athlete/{id}`                          | Consultation des athlètes             | Public      |
-| POST/PUT/DELETE | `/athlete`, `/athlete/{id}`                          | Création / modification / suppression | Authentifié |
-| GET             | `/event`, `/event/{id}`                              | Consultation des épreuves             | Public      |
-| POST/PUT/DELETE | `/event`, `/event/{id}`                              | Création / modification / suppression | Authentifié |
-| GET             | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Consultation des résultats            | Public      |
-| POST/PUT/DELETE | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Création / modification / suppression | Authentifié |
-
-Toutes les routes de création/modification valident les données entrantes via Bean Validation (DTO dédiés) avant tout traitement.
-
-## Tests
-
-Tests unitaires (Mockito + JUnit) sur la logique métier des services, couvrant création et gestion des cas d'erreur (ressource introuvable). Actuellement en place sur `AthleteService` et `DisciplineService` ; extension aux autres services en cours.
-
-## Configuration locale
-
-Ce projet se connecte à une base PostgreSQL hébergée sur Supabase via le connection pooler (port 6543, compatible IPv4).
-
-1. Copier `application.properties.example` en `application.properties`
-2. Renseigner les informations de connexion à votre propre base Supabase (host, username, password) et une clé JWT (`jwt.key`)
-3. Lancer avec :
+### 1. Backend
 
 ```bash
+git clone https://github.com/atteewf/clicandrun.git
+cd clicandrun
+# copier application.properties.example en application.properties
+# renseigner la connexion Supabase et une cle JWT
 mvn spring-boot:run
 ```
 
-L'application démarre sur `http://localhost:8080`.
+Demarre sur `http://localhost:8080`. Documentation interactive sur `http://localhost:8080/swagger-ui/index.html`.
 
-## À venir
+### 2. Frontend
 
-- Application effective des rôles `USER` / `ADMIN` dans les règles d'autorisation (actuellement : authentifié ou non, sans distinction de rôle)
-- Extension des tests unitaires aux services restants, ajout de tests d'intégration (`@SpringBootTest`, `MockMvc`)
-- Endpoint d'inscription utilisateur (hashage du mot de passe côté serveur)
-- Déploiement en production (backend + frontend React)
+```bash
+git clone https://github.com/atteewf/clicandrun-front.git
+cd clicandrun-front
+npm install
+echo "VITE_API_URL=http://localhost:8080" > .env
+npm run dev
+```
+
+Demarre sur `http://localhost:5173`.
+
+### 3. Avec Docker (backend uniquement)
+
+```bash
+mvn clean package
+docker build -t clicandrun .
+docker run -p 8080:8080 clicandrun
+```
+
+## Securite
+
+- Mots de passe hashes en BCrypt
+- Authentification stateless par JWT (le role est encode dans un claim `scope`)
+- Routes en lecture (`GET`) publiques, ecriture (`POST` / `PUT` / `DELETE`) reservee au role ADMIN sur la plupart des ressources
+- CORS configure pour n'autoriser que l'origine du frontend
+
+## Tests
+
+```bash
+mvn test
+```
+
+Tests unitaires JUnit / Mockito sur la logique metier des services.
+
+## A venir
+
+- Deploiement en production (backend + frontend)
+- Endpoint dedie pour la gestion des inscriptions/paiements a une competition
+- Modification / suppression pour l'entite FinalResult depuis le dashboard admin

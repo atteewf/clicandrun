@@ -63,4 +63,8 @@ public class FinalResultService {
         
         return finalResultRepository.save(finalResult);
     }
+
+    public Page<FinalResult> getByAthlete(Long athleteId, Pageable pageable) {
+    return finalResultRepository.findByFinalResultId_Athlete(athleteId, pageable);
+}
 }

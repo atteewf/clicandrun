@@ -50,4 +50,9 @@ public FinalResult getOneFinalResult(@PathVariable Long eventId, @PathVariable L
         FinalResultId id = new FinalResultId(eventId, athleteId);
         finalResultService.deleteFinalResult(id);
     }
+
+    @GetMapping("/finalresult/athlete/{athleteId}")
+public Page<FinalResult> getResultsByAthlete(@PathVariable Long athleteId, Pageable pageable) {
+    return finalResultService.getByAthlete(athleteId, pageable);
+}
 }

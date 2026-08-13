@@ -15,4 +15,6 @@ public interface FinalResultRepository extends JpaRepository<FinalResult, FinalR
     @Override
 @EntityGraph(attributePaths = {"event", "event.competition", "event.discipline", "athlete", "athlete.nationality"})
 Page<FinalResult> findAll(Pageable pageable);
+
+Page<FinalResult> findByFinalResultId_Athlete(Long athleteId, Pageable pageable);
 }

@@ -46,46 +46,33 @@ src/main/java/com/ateew/clicandrun/
 
 - Authentification par **JWT** (génération et validation via `JwtEncoder`/`JwtDecoder`)
 - Mots de passe **hashés en BCrypt**, jamais stockés en clair
-- Routes `GET` publiques sur les données à vocation publique : `competition`, `event`, `finalresult`, `discipline`
-- Routes `GET` protégées (authentification requise) sur les données sensibles : `athlete`, `nationality`, `user`
-- Routes `POST` / `PUT` / `DELETE` protégées, réservées au rôle `ADMIN`
+- Routes `GET` publiques (lecture libre)
+- Routes `POST` / `PUT` / `DELETE` protégées, nécessitent un token JWT valide
 - `POST /login` : échange identifiants (email + mot de passe) contre un token JWT
-- Documentation interactive de l'API via **Swagger UI** (`/swagger-ui.html`), générée automatiquement avec springdoc-openapi
 
 ## Endpoints disponibles
 
-| Méthode         | URL                                                  | Description                                                   | Accès               |
-| --------------- | ---------------------------------------------------- | ------------------------------------------------------------- | ------------------- |
-| POST            | `/login`                                             | Authentification, retourne un JWT                             | Public              |
-| POST            | `/register`                                          | Inscription utilisateur                                       | Public              |
-| GET             | `/competition`, `/competition/{id}`                  | Consultation des compétitions (pagination + filtre `year`)    | Public              |
-| POST/PUT/DELETE | `/competition`, `/competition/{id}`                  | Création / modification / suppression                         | Authentifié (ADMIN) |
-| GET             | `/discipline`, `/discipline/{id}`                    | Consultation des disciplines (pagination + filtre `distance`) | Public              |
-| POST/PUT/DELETE | `/discipline`, `/discipline/{id}`                    | Création / modification / suppression                         | Authentifié (ADMIN) |
-| GET             | `/nationality`, `/nationality/{id}`                  | Consultation des nationalités (pagination)                    | Authentifié         |
-| POST/PUT/DELETE | `/nationality`, `/nationality/{id}`                  | Création / modification / suppression                         | Authentifié (ADMIN) |
-| GET             | `/athlete`, `/athlete/{id}`                          | Consultation des athlètes (pagination + filtre)               | Authentifié         |
-| POST/PUT/DELETE | `/athlete`, `/athlete/{id}`                          | Création / modification / suppression                         | Authentifié         |
-| GET             | `/event`, `/event/{id}`                              | Consultation des épreuves (pagination)                        | Public              |
-| POST/PUT/DELETE | `/event`, `/event/{id}`                              | Création / modification / suppression                         | Authentifié (ADMIN) |
-| GET             | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Consultation des résultats (pagination)                       | Public              |
-| POST/PUT/DELETE | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Création / modification / suppression                         | Authentifié         |
+| Méthode         | URL                                                  | Description                           | Accès       |
+| --------------- | ---------------------------------------------------- | ------------------------------------- | ----------- |
+| POST            | `/login`                                             | Authentification, retourne un JWT     | Public      |
+| GET             | `/competition`, `/competition/{id}`                  | Consultation des compétitions         | Public      |
+| POST/PUT/DELETE | `/competition`, `/competition/{id}`                  | Création / modification / suppression | Authentifié |
+| GET             | `/discipline`, `/discipline/{id}`                    | Consultation des disciplines          | Public      |
+| POST/PUT/DELETE | `/discipline`, `/discipline/{id}`                    | Création / modification / suppression | Authentifié |
+| GET             | `/nationality`, `/nationality/{id}`                  | Consultation des nationalités         | Public      |
+| POST/PUT/DELETE | `/nationality`, `/nationality/{id}`                  | Création / modification / suppression | Authentifié |
+| GET             | `/athlete`, `/athlete/{id}`                          | Consultation des athlètes             | Public      |
+| POST/PUT/DELETE | `/athlete`, `/athlete/{id}`                          | Création / modification / suppression | Authentifié |
+| GET             | `/event`, `/event/{id}`                              | Consultation des épreuves             | Public      |
+| POST/PUT/DELETE | `/event`, `/event/{id}`                              | Création / modification / suppression | Authentifié |
+| GET             | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Consultation des résultats            | Public      |
+| POST/PUT/DELETE | `/finalresult`, `/finalresult/{eventId}/{athleteId}` | Création / modification / suppression | Authentifié |
 
 Toutes les routes de création/modification valident les données entrantes via Bean Validation (DTO dédiés) avant tout traitement.
 
-## Pagination et filtres
-
-Les endpoints de liste (`GET /event`, `/competition`, `/discipline`, `/nationality`, `/finalresult`) supportent la pagination Spring Data (`?page=0&size=20`), avec métadonnées de réponse (`totalElements`, `totalPages`, `first`, `last`).
-
-Filtres disponibles, combinables avec la pagination :
-
-- `GET /competition?year=2026` — filtre par année
-- `GET /discipline?distance=100` — filtre par distance
-- `GET /athlete?...` — filtre disponible sur les athlètes
-
 ## Tests
 
-Tests unitaires (Mockito + JUnit) sur la logique métier des services, couvrant création, gestion des cas d'erreur (ressource introuvable), pagination et filtres. Couverture actuelle : `AthleteService`, `CompetitionService`, `DisciplineService`, `EventService`, `FinalResultService`, `NationalityService`.
+Tests unitaires (Mockito + JUnit) sur la logique métier des services, couvrant création et gestion des cas d'erreur (ressource introuvable). Actuellement en place sur `AthleteService` et `DisciplineService` ; extension aux autres services en cours.
 
 ## Configuration locale
 
@@ -103,7 +90,7 @@ L'application démarre sur `http://localhost:8080`.
 
 ## À venir
 
+- Application effective des rôles `USER` / `ADMIN` dans les règles d'autorisation (actuellement : authentifié ou non, sans distinction de rôle)
 - Extension des tests unitaires aux services restants, ajout de tests d'intégration (`@SpringBootTest`, `MockMvc`)
-- Filtres supplémentaires (nationality, autres critères combinés)
 - Endpoint d'inscription utilisateur (hashage du mot de passe côté serveur)
 - Déploiement en production (backend + frontend React)

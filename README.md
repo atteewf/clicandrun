@@ -58,6 +58,23 @@ ClicAndRun permet de consulter librement les competitions, epreuves, athletes et
 - **Espace administration** : CRUD complet sur les 6 entites principales, protege par role ADMIN
 - Recherche instantanee sur les listes
 
+## Screenshot
+
+### Page d'accueil
+<img width="1313" height="898" alt="image" src="https://github.com/user-attachments/assets/6eed4e0c-1f2b-4f76-b1a7-fbf33083a294" />
+
+### Détail d'une compétition
+<img width="942" height="782" alt="image" src="https://github.com/user-attachments/assets/4da47bb9-4631-4d0a-a235-e58e480ea9b2" />
+
+### Dashboard admin
+<img width="939" height="738" alt="image" src="https://github.com/user-attachments/assets/0321390c-38df-4206-b433-19b3e1655a06" />
+
+### Fiche athlète
+<img width="574" height="494" alt="image" src="https://github.com/user-attachments/assets/72c2cc66-4400-401c-a146-61b52fb2cfbb" />
+
+
+
+
 ## Lancer le projet en local
 
 Le backend et le frontend sont deux depots separes, a lancer en parallele.

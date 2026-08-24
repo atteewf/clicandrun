@@ -129,11 +129,6 @@ src/main/java/com/ateew/clicandrun/
 - Lecture (`GET`) publique, écriture (`POST`/`PUT`/`DELETE`) réservée au rôle `ADMIN`
 - CORS restreint aux origines autorisées (frontend local + production)
 
-## 🔄 CI/CD & Disponibilité
-
-- **Keep-alive automatisé** : un workflow GitHub Actions (`.github/workflows/keep-alive.yml`) ping l'API toutes les 10 minutes pour éviter la mise en veille Render (free tier) et la pause Supabase après inactivité.
-- **Démo Kubernetes** : manifests K8s (`k8s/deployment.yaml`, `k8s/service.yaml`) pour déploiement local sur cluster kind (Docker Desktop) - backend et frontend conteneurisés, orchestrés indépendamment de la prod Render/Vercel, à des fins de démonstration DevOps.
-
 ## Screenshot
 
 ### Page d'accueil

@@ -51,14 +51,14 @@ public class FinalResultDto {
         return isDsq;
 
     }
-    public void setIsDsq(boolean isDsq){
+    public void setDsq(boolean isDsq){
         this.isDsq = isDsq;
     }
 
      public boolean isDns(){
         return isDns;
     }
-    public void setIsDns(boolean isDns){
+    public void setDns(boolean isDns){
         this.isDns = isDns;
     }
 
@@ -67,7 +67,7 @@ public class FinalResultDto {
         return isDnf;
     }
 
-    public void setIsDnf(boolean isDnf){
+    public void setDnf(boolean isDnf){
         this.isDnf = isDnf;
     }
 

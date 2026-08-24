@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clicandrun-backend
+  labels:
+    app: clicandrun-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: clicandrun-backend
+  template:
+    metadata:
+      labels:
+        app: clicandrun-backend
+    spec:
+      containers:
+        - name: clicandrun-backend
+          image: ateew/clicandrun-backend:latest
+          ports:
+            - containerPort: 8080

@@ -8,6 +8,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square)
 ![Deployed](https://img.shields.io/badge/Deployed-Render-46E3B7?style=flat-square)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-ready-326CE5?style=flat-square)
 
 ## 🌐 En ligne
 
@@ -18,7 +19,6 @@
 ## 📸 Preview
 
 <img width="796" height="667" alt="image" src="https://github.com/user-attachments/assets/4db25766-2960-4076-81f6-1d7881465e26" />
-
 
 ## 📋 Description
 
@@ -60,18 +60,39 @@ Ce projet a été construit de A à Z dans le cadre d'une reconversion professio
 
 ## ⚙️ Stack technique
 
-| Technologie | Usage |
-|---|---|
-| Java 25 | Langage |
-| Spring Boot 4.1.0 | Framework backend |
-| Spring Data JPA / Hibernate | Persistance, ORM |
-| Spring Security / JWT | Authentification, autorisation |
-| Bean Validation | Validation des DTO |
-| PostgreSQL (Supabase) | Base de données |
-| JUnit / Mockito | Tests unitaires |
-| Docker | Conteneurisation (build multi-stage) |
-| Render | Déploiement |
-| Swagger / OpenAPI | Documentation interactive |
+| Technologie                 | Usage                                |
+| --------------------------- | ------------------------------------ |
+| Java 25                     | Langage                              |
+| Spring Boot 4.1.0           | Framework backend                    |
+| Spring Data JPA / Hibernate | Persistance, ORM                     |
+| Spring Security / JWT       | Authentification, autorisation       |
+| Bean Validation             | Validation des DTO                   |
+| PostgreSQL (Supabase)       | Base de données                      |
+| JUnit / Mockito             | Tests unitaires                      |
+| Docker                      | Conteneurisation (build multi-stage) |
+| Render                      | Déploiement                          |
+| Swagger / OpenAPI           | Documentation interactive            |
+
+## 🔄 CI/CD & Orchestration
+
+### Keep-alive automatisé
+
+Un workflow GitHub Actions (`.github/workflows/keep-alive.yml`) ping l'API toutes les 10 minutes pour éviter la mise en veille du service Render (free tier, spin-down après 15 min d'inactivité) et la pause automatique de la base Supabase (après 7 jours sans requête).
+
+### Démo Kubernetes
+
+Le projet inclut des manifests Kubernetes (`k8s/deployment.yaml`, `k8s/service.yaml`) permettant un déploiement complet — backend et frontend conteneurisés, chacun avec ses propres `Deployment` et `Service` — sur un cluster local (kind, via Docker Desktop).
+
+**Pourquoi une démo K8s séparée de la prod Render/Vercel ?**
+L'objectif est de démontrer une compréhension pratique de l'orchestration de conteneurs (Pods, Deployments, Services, labels/selectors, NodePort) sans complexifier ou fragiliser un déploiement de production déjà stable et fonctionnel. Cette approche reflète un cas réel : une architecture existante en production n'est pas systématiquement migrée vers Kubernetes du jour au lendemain — la démo permet de prouver la maîtrise des concepts sans prise de risque sur l'existant.
+
+```bash
+# Lancer la démo K8s en local
+docker build -t <votre-pseudo>/clicandrun-backend:latest .
+docker push <votre-pseudo>/clicandrun-backend:latest
+kubectl apply -f k8s/
+kubectl port-forward service/clicandrun-backend 8080:8080
+```
 
 ## 📁 Structure du projet
 
@@ -91,15 +112,15 @@ src/main/java/com/ateew/clicandrun/
 
 7 entités liées entre elles :
 
-| Entité | Description | Relations |
-|---|---|---|
-| `Competition` | Une compétition | — |
-| `Discipline` | Une épreuve type (100m, marathon...) | — |
-| `Nationality` | Une nationalité | — |
-| `Athlete` | Un athlète | `@ManyToOne` → Nationality |
-| `Event` | Une épreuve rattachée à une compétition | `@ManyToOne` → Competition, Discipline |
-| `FinalResult` | Résultat d'un athlète sur une épreuve | `@ManyToOne` → Event, Athlete · clé composite |
-| `User` | Compte utilisateur | `@OneToOne` → Athlete (optionnel) · rôle `USER`/`ADMIN` |
+| Entité        | Description                             | Relations                                               |
+| ------------- | --------------------------------------- | ------------------------------------------------------- |
+| `Competition` | Une compétition                         | —                                                       |
+| `Discipline`  | Une épreuve type (100m, marathon...)    | —                                                       |
+| `Nationality` | Une nationalité                         | —                                                       |
+| `Athlete`     | Un athlète                              | `@ManyToOne` → Nationality                              |
+| `Event`       | Une épreuve rattachée à une compétition | `@ManyToOne` → Competition, Discipline                  |
+| `FinalResult` | Résultat d'un athlète sur une épreuve   | `@ManyToOne` → Event, Athlete · clé composite           |
+| `User`        | Compte utilisateur                      | `@OneToOne` → Athlete (optionnel) · rôle `USER`/`ADMIN` |
 
 ## 🔐 Sécurité
 
@@ -108,20 +129,28 @@ src/main/java/com/ateew/clicandrun/
 - Lecture (`GET`) publique, écriture (`POST`/`PUT`/`DELETE`) réservée au rôle `ADMIN`
 - CORS restreint aux origines autorisées (frontend local + production)
 
+## 🔄 CI/CD & Disponibilité
+
+- **Keep-alive automatisé** : un workflow GitHub Actions (`.github/workflows/keep-alive.yml`) ping l'API toutes les 10 minutes pour éviter la mise en veille Render (free tier) et la pause Supabase après inactivité.
+- **Démo Kubernetes** : manifests K8s (`k8s/deployment.yaml`, `k8s/service.yaml`) pour déploiement local sur cluster kind (Docker Desktop) - backend et frontend conteneurisés, orchestrés indépendamment de la prod Render/Vercel, à des fins de démonstration DevOps.
+
 ## Screenshot
 
 ### Page d'accueil
+
 <img width="1313" height="898" alt="image" src="https://github.com/user-attachments/assets/6eed4e0c-1f2b-4f76-b1a7-fbf33083a294" />
 
 ### Détail d'une compétition
+
 <img width="942" height="782" alt="image" src="https://github.com/user-attachments/assets/4da47bb9-4631-4d0a-a235-e58e480ea9b2" />
 
 ### Dashboard admin
+
 <img width="939" height="738" alt="image" src="https://github.com/user-attachments/assets/0321390c-38df-4206-b433-19b3e1655a06" />
 
 ### Fiche athlète
-<img width="574" height="494" alt="image" src="https://github.com/user-attachments/assets/72c2cc66-4400-401c-a146-61b52fb2cfbb" />
 
+<img width="574" height="494" alt="image" src="https://github.com/user-attachments/assets/72c2cc66-4400-401c-a146-61b52fb2cfbb" />
 
 ## 🚀 Lancer le projet en local
 
@@ -154,6 +183,3 @@ mvn test
 - Endpoint `GET /users/me` pour permettre à un `USER` de saisir son propre résultat depuis le frontend
 - Extension des tests unitaires aux services restants, tests d'intégration
 - Modification / suppression pour `FinalResult` depuis le dashboard admin
-- CI/CD (GitHub Actions)
-
-

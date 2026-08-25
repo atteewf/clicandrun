@@ -82,10 +82,10 @@ Un workflow GitHub Actions (`.github/workflows/keep-alive.yml`) ping l'API toute
 
 ### Démo Kubernetes
 
-Le projet inclut des manifests Kubernetes (`k8s/deployment.yaml`, `k8s/service.yaml`) permettant un déploiement complet — backend et frontend conteneurisés, chacun avec ses propres `Deployment` et `Service` — sur un cluster local (kind, via Docker Desktop).
+Le projet inclut des manifests Kubernetes (`k8s/deployment.yaml`, `k8s/service.yaml`) permettant un déploiement complet — backend et frontend conteneurisés, chacun avec ses propres `Deployment` et `Service` - sur un cluster local (kind, via Docker Desktop).
 
 **Pourquoi une démo K8s séparée de la prod Render/Vercel ?**
-L'objectif est de démontrer une compréhension pratique de l'orchestration de conteneurs (Pods, Deployments, Services, labels/selectors, NodePort) sans complexifier ou fragiliser un déploiement de production déjà stable et fonctionnel. Cette approche reflète un cas réel : une architecture existante en production n'est pas systématiquement migrée vers Kubernetes du jour au lendemain — la démo permet de prouver la maîtrise des concepts sans prise de risque sur l'existant.
+L'objectif est de démontrer une compréhension pratique de l'orchestration de conteneurs (Pods, Deployments, Services, labels/selectors, NodePort) sans complexifier ou fragiliser un déploiement de production déjà stable et fonctionnel. Cette approche reflète un cas réel : une architecture existante en production n'est pas systématiquement migrée vers Kubernetes du jour au lendemain - la démo permet de prouver la maîtrise des concepts sans prise de risque sur l'existant.
 
 ```bash
 # Lancer la démo K8s en local

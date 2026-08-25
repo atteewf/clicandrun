@@ -10,10 +10,13 @@ import com.ateew.clicandrun.model.FinalResultId;
 import com.ateew.clicandrun.service.FinalResultService;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +37,8 @@ public class FinalResultController {
     }
 
     @GetMapping("/finalresult")
-    public Page<FinalResult> getFinalResult(Pageable pageable) {
-        return finalResultService.getFinalResult(pageable);
+    public Page<FinalResult> getFinalResult(@RequestParam(required=false) String search, Pageable pageable) {
+        return finalResultService.searchFinalResult(search, pageable);
     }
 
     @GetMapping("/finalresult/{eventId}/{athleteId}")

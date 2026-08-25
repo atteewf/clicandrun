@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ateew.clicandrun.dto.AthleteDto;
 import com.ateew.clicandrun.exception.AthleteNotFoundException;
 import com.ateew.clicandrun.model.Athlete;
+import com.ateew.clicandrun.model.FinalResult;
 import com.ateew.clicandrun.repository.AthleteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,18 @@ public class AthleteService {
    public Page<Athlete> getAthlete(Pageable pageable) {
     return athleteRepository.findAll(pageable);
 }
+
+   public Page<Athlete> searchAthlete(String search, Pageable pageable) {
+    if (search == null || search.isBlank()) {
+        return athleteRepository.findAll(pageable);
+    }
+    return athleteRepository.search(search, pageable);
+    }
+
+
+
+
+
 
     public void deleteAthlete(final Long id) {
         athleteRepository.deleteById(id);

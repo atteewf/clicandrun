@@ -39,6 +39,13 @@ public class FinalResultService {
         return finalResultRepository.findAll(pageable);
     }
 
+      public Page<FinalResult> searchFinalResult(String search, Pageable pageable) {
+    if (search == null || search.isBlank()) {
+        return finalResultRepository.findAll(pageable);
+    }
+    return finalResultRepository.search(search, pageable);
+    }
+
     public void deleteFinalResult(final FinalResultId id) {
         finalResultRepository.deleteById(id);
     }

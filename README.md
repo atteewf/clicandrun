@@ -31,8 +31,9 @@ Un projet backend complet, démontrant :
 - Gestion centralisée des erreurs (`@RestControllerAdvice`)
 - **Tests unitaires** (JUnit / Mockito) isolés de la base de données
 - **Conteneurisation Docker** (build multi-stage) et **déploiement en production**
+- Endpoint `GET /users/me` pour l'auto-consultation de profil, avec vérification d'autorisation par propriété (`USER` limité à ses propres ressources sur `finalresult`)
 
-Ce projet a été construit de A à Z dans le cadre d'une reconversion professionnelle, en autonomie, sans suivre de tutoriel pas à pas.
+Ce projet a été construit de A à Z dans le cadre d'une reconversion professionnelle, en autonomie.
 
 ## Architecture generale
 
@@ -54,7 +55,7 @@ Ce projet a été construit de A à Z dans le cadre d'une reconversion professio
 - 🔐 **Authentification JWT** : connexion, inscription (avec création automatique d'un profil athlète)
 - 👮 **Rôles** : lecture publique, écriture réservée aux administrateurs
 - 📄 **Pagination** : toutes les listes exposées via `Pageable`
-- 🌍 **Recherche par athlète** : endpoint dédié filtrant les résultats côté base (`/finalresult/athlete/{id}`)
+- 🔎 **Recherche paginée côté serveur** : requêtes JPQL avec `LIKE` insensible à la casse sur `finalresult` (athlète, compétition, épreuve) et `athlete` (nom, nationalité)
 - 📚 **Documentation interactive** : Swagger / OpenAPI
 - 🧪 **Tests automatisés** : couverture de la logique métier
 
@@ -126,7 +127,8 @@ src/main/java/com/ateew/clicandrun/
 
 - Authentification par **JWT** (`JwtEncoder` / `JwtDecoder`)
 - Mots de passe **hashés en BCrypt**
-- Lecture (`GET`) publique, écriture (`POST`/`PUT`/`DELETE`) réservée au rôle `ADMIN`
+- Lecture (`GET`) publique, écriture (`POST`/`PUT`/`DELETE`) réservée au rôle `ADMIN` sur `competition`, `discipline`, `nationality`, `event`, `athlete`
+- Sur `finalresult`, un `USER` ne peut créer/modifier/supprimer que ses propres résultats (vérification par comparaison `athleteId`)
 - CORS restreint aux origines autorisées (frontend local + production)
 
 ## Screenshot
@@ -175,6 +177,4 @@ mvn test
 
 ## 📌 À venir
 
-- Endpoint `GET /users/me` pour permettre à un `USER` de saisir son propre résultat depuis le frontend
 - Extension des tests unitaires aux services restants, tests d'intégration
-- Modification / suppression pour `FinalResult` depuis le dashboard admin

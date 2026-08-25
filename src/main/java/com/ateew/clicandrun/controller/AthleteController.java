@@ -13,6 +13,7 @@ import com.ateew.clicandrun.service.AthleteService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +26,11 @@ public class AthleteController {
     @Autowired
     private AthleteService athleteService;
 
-   @GetMapping("/athlete")
-public Page<Athlete> getAthlete(Pageable pageable) {
-    return athleteService.getAthlete(pageable);
-}
 
+    @GetMapping("/athlete")
+    public Page<Athlete> getAthlete(@RequestParam(required=false) String search, Pageable pageable) {
+        return athleteService.searchAthlete(search, pageable);
+    }
 
     @GetMapping("/athlete/{id}")
     public Athlete getOneAthlete(@PathVariable Long id) {
